@@ -20,8 +20,8 @@ public class BankController {
     }
 
     public void start() {
-        customerView.displayWelcomeMessage();  
-        
+        customerView.displayWelcomeMessage(); 
+                
         while (true) {
             customerView.displayMainMenu();
             int choice = sc.nextInt();
@@ -57,8 +57,9 @@ public class BankController {
     }                  
 
     public void servicesAvailable(String customerId) {
-        customerView.displayServicesMenu();
         while (true) {
+
+            customerView.displayServicesMenu();
             int serviceChoice = sc.nextInt();
 
             switch(serviceChoice) {
@@ -79,6 +80,7 @@ public class BankController {
                     break;
                 case 6:
                     bankServices.managePassword(customerId);
+                    break;
                 case 7:
                     System.out.println("Logging out...");
                     return; // Exit the services menu

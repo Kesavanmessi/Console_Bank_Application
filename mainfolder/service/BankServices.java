@@ -1,11 +1,11 @@
 package service;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
 import model.Customer_Account;
 import model.Statement;
-import java.util.HashMap;
-import java.util.Map;   
-import java.util.Scanner;
-import java.util.List;
 public class BankServices {
     private Map<String, Customer_Account> accounts;
     private List<Statement> transactionHistory; // Maps transaction ID to details
@@ -135,9 +135,16 @@ public class BankServices {
         Customer_Account account = accounts.get(customerId);
         if (account != null) {
             System.out.println("Transaction History for Account No: " + account.getAccountNo());    
-            for (Statement statement : transactionHistory) {
-                if (statement.getAccountNo().equals(account.getAccountNo()) || statement.getReceiverAccountNo().equals(account.getAccountNo())) {
-                    System.out.println(statement);
+            for (int i = transactionHistory.size() - 1; i >= 0; i--) {
+                Statement statement = transactionHistory.get(i);
+                if (statement.getAccountNo().equals(account.getAccountNo()) || statement.getReceiverAccountNo() != null && statement.getReceiverAccountNo().equals(account.getAccountNo())) {
+                    System.out.println("Transaction ID: " + statement.getTransactionId());
+                    System.out.println("Date: " + statement.getDate());
+                    System.out.println("Type: " + statement.getType());
+                    System.out.println("Amount: " + statement.getAmount());
+                    System.out.println("Status: " + statement.getStatus());
+                    System.out.println("Balance after transaction: " + statement.getCurBalance());
+                    System.out.println("-------------------------------");  
                 }
             }
         }
