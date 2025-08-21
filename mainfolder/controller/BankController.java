@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
-import Service.BankServices;    
-import View.CustomerView;
 import java.util.Scanner;
+import service.BankServices;
+import view.CustomerView;
 
 /**
  * BankController class to manage bank operations.
@@ -26,10 +26,10 @@ public class BankController {
             customerView.displayMainMenu();
             int choice = sc.nextInt();
 
-            swtich(choice) {
+            switch(choice) {
 
                 case 1:
-                createAccount();
+                this.createAccount();
                 break;
 
                 case 2:
@@ -46,7 +46,7 @@ public class BankController {
      }
     }
 
-    public createAccount() {
+    public void createAccount() {
        System.out.println("Enter your Name");
        sc.nextLine();
        String accountHolderName = sc.nextLine();
@@ -84,7 +84,7 @@ public class BankController {
                     return; // Exit the services menu
                 default:
                     System.out.println("Invalid choice! Please try again.");
-                    continue;
+                  
             }
     }
 
@@ -99,7 +99,7 @@ public class BankController {
         System.out.println("Enter your Password:");
         String password = sc.nextLine();    
       
-        if(bankServices.authenticateUser(customerId, password)) {
+        if(bankServices.login(customerId, password)) {
             System.out.println("Login successful!");
             servicesAvailable(customerId);
         }

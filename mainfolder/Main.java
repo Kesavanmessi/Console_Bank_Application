@@ -1,4 +1,4 @@
-import Controller.BankController;
+import controller.BankController;
 public class Main {
 
     public static void main(String[] args) {
