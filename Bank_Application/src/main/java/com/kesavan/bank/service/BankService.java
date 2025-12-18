@@ -96,4 +96,41 @@ public class BankService {
 
         account.setBalance(account.getBalance() - amount);
     }
+
+    /**
+     * Lists accounts with balance greater than the specified amount.
+     * Uses Java Streams to filter and collect results.
+     *
+     * @param amount The minimum balance threshold
+     * @return List of matching accounts
+     */
+    public synchronized java.util.List<Account> findAccountsWithBalanceGreaterThan(double amount) {
+        return accounts.values().stream()
+                .filter(acc -> acc.getBalance() > amount)
+                .collect(java.util.stream.Collectors.toList());
+    }
+
+    /**
+     * Calculates the total balance held by the bank across all accounts.
+     * Uses Stream API's reduce/sum capabilities.
+     *
+     * @return Total balance
+     */
+    public synchronized double getTotalBankBalance() {
+        return accounts.values().stream()
+                .mapToDouble(Account::getBalance)
+                .sum();
+    }
+
+    /**
+     * Retrieves all accounts sorted by their natural ordering (Account Number).
+     * Uses Stream API's sorted() method.
+     *
+     * @return Sorted list of accounts
+     */
+    public synchronized java.util.List<Account> getSortedAccounts() {
+        return accounts.values().stream()
+                .sorted()
+                .collect(java.util.stream.Collectors.toList());
+    }
 }
