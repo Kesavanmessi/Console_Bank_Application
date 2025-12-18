@@ -17,6 +17,8 @@ public class BankService {
 
     /**
      * Creates a new bank account.
+     * Uses 'throws' in signature to declare that this method might fail.
+     * Uses 'throw' keyword inside to actually raise the exception.
      *
      * @param accountNumber Unique account number
      * @param holderName    Name of the account holder

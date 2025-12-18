@@ -1,6 +1,8 @@
 package com.kesavan.bank.app;
 
 import com.kesavan.bank.exception.BankException;
+import com.kesavan.bank.exception.InsufficientBalanceException;
+import com.kesavan.bank.exception.InvalidAmountException;
 import com.kesavan.bank.model.Account;
 import com.kesavan.bank.service.BankService;
 import com.kesavan.bank.service.TransactionTask;
@@ -78,8 +80,28 @@ public class BankApplication {
                     .forEach(System.out::println);
 
 
+            System.out.println("\nAccounts sorted by Balance (Desc):");
+            bankService.getSortedAccounts().stream()
+                    .sorted(com.kesavan.bank.util.AccountComparators.BY_BALANCE_DESC)
+                    .forEach(System.out::println);
+
+
+        } catch (InsufficientBalanceException e) {
+            // Specific catch for business logic errors
+            System.err.println("Transaction Failed: Insufficient funds. >> " + e.getMessage());
+        } catch (InvalidAmountException e) {
+            // Specific catch for validation errors
+            System.err.println("Input Error: Invalid amount provided. >> " + e.getMessage());
         } catch (BankException e) {
-            System.err.println("Application Error: " + e.getMessage());
+            // Catch-all for other BankExceptions (demonstrating hierarchy)
+            System.err.println("General Bank Error: " + e.getMessage());
+        } catch (Exception e) {
+            // Avoid generic Exception if possible, but good for unexpected runtime errors
+            System.err.println("Unexpected Error: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            // Finally block always executes, useful for cleanup (closing resources, etc.)
+            System.out.println("\n[Finally] Application cleanup/shutdown sequence completed.");
         }
     }
 }
