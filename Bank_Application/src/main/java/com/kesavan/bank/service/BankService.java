@@ -57,34 +57,39 @@ public class BankService {
 
     /**
      * Deposits amount into an account.
+     * Synchronized to prevent race conditions during concurrent updates.
      *
      * @param accountNumber Content target account number
      * @param amount        Amount to deposit
      * @throws BankException if account not found or invalid amount
      */
-    public void deposit(String accountNumber, double amount) throws BankException {
+    public synchronized void deposit(String accountNumber, double amount) throws BankException {
         if (amount <= 0) {
             throw new InvalidAmountException("Deposit amount must be positive.");
         }
         
         Account account = getAccount(accountNumber);
+        // Critical section: Reading and updating balance must be atomic
         account.setBalance(account.getBalance() + amount);
     }
 
     /**
      * Withdraws amount from an account.
+     * Synchronized to prevent race conditions during concurrent updates
+     * and ensure balance check and update happen atomically.
      *
      * @param accountNumber Target account number
      * @param amount        Amount to withdraw
      * @throws BankException if account not found, invalid amount, or insufficient funds
      */
-    public void withdraw(String accountNumber, double amount) throws BankException {
+    public synchronized void withdraw(String accountNumber, double amount) throws BankException {
         if (amount <= 0) {
             throw new InvalidAmountException("Withdrawal amount must be positive.");
         }
 
         Account account = getAccount(accountNumber);
         
+        // Critical section: Check balance and update must be atomic to avoid overdrawing
         if (account.getBalance() < amount) {
             throw new InsufficientBalanceException("Insufficient balance in account: " + accountNumber);
         }
