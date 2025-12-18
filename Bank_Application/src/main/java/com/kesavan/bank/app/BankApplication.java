@@ -61,6 +61,23 @@ public class BankApplication {
             System.out.println("All transactions completed.");
             System.out.println("Final Balance: " + account.getBalance());
 
+            // --- Reporting Demo ---
+            System.out.println("\n--- Reporting Demo ---");
+            // Create more accounts for sorting demo
+            bankService.createAccount("ACC-002", "Alice", 5000.0);
+            bankService.createAccount("ACC-003", "Bob", 200.0);
+
+            System.out.println("Accounts sorted by Holder Name:");
+            bankService.getSortedAccounts().stream()
+                    .sorted(com.kesavan.bank.util.AccountComparators.BY_HOLDER_NAME)
+                    .forEach(System.out::println);
+
+            System.out.println("\nAccounts sorted by Balance (Desc):");
+            bankService.getSortedAccounts().stream()
+                    .sorted(com.kesavan.bank.util.AccountComparators.BY_BALANCE_DESC)
+                    .forEach(System.out::println);
+
+
         } catch (BankException e) {
             System.err.println("Application Error: " + e.getMessage());
         }
